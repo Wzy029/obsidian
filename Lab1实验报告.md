@@ -7,7 +7,7 @@
 ## 1.2 实验过程
 
 ### 1.2.1 四路选择器原理图
-![[Pasted image 20250306144715.png|500]]
+![[Pasted image 20250306144715.png]]
 
 ### 1.2.2  八路选择器代码解释
 ```verilog
@@ -129,36 +129,40 @@ I=8'b10101010时，真值表应为
 | 110 |  1  | I[1] |
 | 111 |  0  | I[0] |
 Verilate仿真结果：（与真值表相同）
-![[Pasted image 20250313152349.png|600]]
-
+![[Pasted image 20250306151956.png]]
 
 ### 1.2.4 Vivado
 #### 1.2.4.1  Synthesis
-![[Pasted image 20250306153034.png|450]]
+![[Pasted image 20250306153034.png]]
 #### 1.2.4.2 Implementation
-![[Pasted image 20250306153149.png|450]]
+![[Pasted image 20250306153149.png]]
 
 #### 1.2.4.3 Simulation
-![[Pasted image 20250306154053.png|450]]
+![[Pasted image 20250306154053.png]]
 #### 1.2.4.4 上板
-![[d4afcad6ce5eb1f528d341d15561262.jpg|475]]
+
 
 ## 1.3 思考题
 
 ### 1.3.1  Mux2T1_1 是两个 AND，一个 OR 和一个 NOT 组成的简单结构，它是由哪种 decoder 和 AND-OR 结构组成的？
 
-1-to-2 decoder，2×1 AND-OR
 
 ### 1.3.2 Mux4T1_1 是如何组成的
 
-2-to-4 decoder，4×1 AND-OR
+由三个Mux2T1_1组成，输入I(4位)，从高到低对应I[3]-I[0], S(2位)，从高到低对应S[1]-S[0]
+I[3]-I[2]、I[1]-I[0]在S[1]的控制下分别输出一位
+输出的两位数据在S[0]的控制下输出一位。
+
 ### 1.3.2 Mux8T1_1 是如何组成的
 
-3-to-8 decoder，8×1 AND-OR
+Mux8T1_1由两个Mux4T1_1，连接一个Mux2T1_1组成
+输入I(8位)，从高到低对应I[7]-I[0], S(3位)，从高到低对应S[2]-S[0]
+I[7]-I[4]、I[3]-I[0]在S[1]S[0]的控制下分别输出一位
+输出的两位数据在S[2]的控制下输出一位。
 
 ### 1.3.3 Mux2<sup>m</sup>T1_n 是如何构成的
 
-m-to-2<sup>m</sup> decoder，2<sup>m</sup> \*n×n AND-OR
+由两个Mux2<sup>m-1</sup>T1_n，和一个Mux2T1_n构成
 
 # 2  Lab1-2
 
@@ -172,92 +176,131 @@ m-to-2<sup>m</sup> decoder，2<sup>m</sup> \*n×n AND-OR
 ### 2.2.1 译码管设计
 ```verilog
 `timescale 1ns / 1ps
-
-module SegDecoder (
-    input wire [3:0] data,
-    input wire point,
-    input wire LE,
-
-    output wire a,
-    output wire b,
-    output wire c,
-    output wire d,
-    output wire e,
-    output wire f,
-    output wire g,
-    output wire p
+module and4(
+    input I0,
+    input I1,
+    input I2,
+    input I3,
+    output O
 );
-  
-  wire wire0, wire1, wire2, wire3;
-  wire inv_wire0, inv_wire1, inv_wire2, inv_wire3;
-  assign {wire3 ,wire2, wire1, wire0} = data;
-  assign {inv_wire0, inv_wire1, inv_wire2, inv_wire3} = {~wire0, ~wire1, ~wire2, ~wire3};
-  
-  // minterms for number 0-f
-  wire [15:0] and_gate;
-  assign and_gate[0] = inv_wire0 & inv_wire1 & inv_wire2 & inv_wire3;//0
-  assign and_gate[1] = wire0 & inv_wire1 & inv_wire2 & inv_wire3; // 1
-  assign and_gate[2] = inv_wire0 & wire1 & inv_wire2 & inv_wire3;//2
-  assign and_gate[3] = wire0 & wire1 & inv_wire2 & inv_wire3;//3
-  assign and_gate[4] = inv_wire0 & inv_wire1 & wire2 & inv_wire3; // 4
-  assign and_gate[5] = wire0 & inv_wire1 & wire2 & inv_wire3;//5
-  assign and_gate[6] = inv_wire0 & wire1 & wire2 & inv_wire3;//6
-  assign and_gate[7] = wire0 & wire1 & wire2 & inv_wire3;//7
-  assign and_gate[8] = inv_wire0 & inv_wire1 & inv_wire2 & wire3;//8
-  assign and_gate[9] = wire0 & inv_wire1 & inv_wire2 & wire3;//9
-  assign and_gate[10] = inv_wire0 & wire1 & inv_wire2 & wire3;//A
-  assign and_gate[11] = wire0 & wire1 & inv_wire2 & wire3; // B
-  assign and_gate[12] = inv_wire0 & inv_wire1 & wire2 & wire3;//C
-  assign and_gate[13] = wire0 & inv_wire1 & wire2 & wire3; // D
-  assign and_gate[14] = inv_wire0 & wire1 & wire2 & wire3;//E
-  assign and_gate[15] = wire0 & wire1 & wire2 & wire3;//F
-  
-  // SegDecoder
-  wire a_or, a_result;
-  assign a_or = and_gate[1] | and_gate[4] | and_gate[11] | and_gate[13];
-  assign a_result = a_or | LE;
-  assign a = a_result;
-
-  wire b_or, b_result;
-  assign b_or = and_gate[5] | and_gate[6] | and_gate[11] | and_gate[12] | and_gate[14] | and_gate[15];
-  assign b_result = b_or | LE;
-  assign b = b_result;
-
-  wire c_or, c_result;
-  assign c_or = and_gate[2] | and_gate[12] | and_gate[14] | and_gate[15];
-  assign c_result = c_or | LE;
-  assign c = c_result;
-
-  wire d_or, d_result;
-  assign d_or = and_gate[1] | and_gate[4] | and_gate[7] | and_gate[10] | and_gate[15];
-  assign d_result = d_or | LE;
-  assign d = d_result;
-
-  wire e_or, e_result;
-  assign e_or = and_gate[1] | and_gate[3] | and_gate[4] | and_gate[5] | and_gate[7] | and_gate[9];
-  assign e_result = e_or | LE;
-  assign e = e_result;
-
-  wire f_or, f_result;
-  assign f_or = and_gate[1] | and_gate[2] | and_gate[3] | and_gate[7] | and_gate[13];
-  assign f_result = f_or | LE;
-  assign f = f_result;
-
-  wire g_or, g_result;
-  assign g_or = and_gate[0] | and_gate[1] | and_gate[7] | and_gate[12];
-  assign g_result = g_or | LE;
-  assign g = g_result;
-  
-  assign p=~point;
- 
-
+    assign O=I0 & I1 & I2 & I3;
 endmodule
+
+module and3(
+    input I0,
+    input I1,
+    input I2,
+    output O
+);
+    assign O=I0 & I1 & I2;
+endmodule
+
+module and2(
+    input I0,
+    input I1,
+    output O
+);
+    assign O=I0 & I1;
+endmodule
+
+module or3(
+    input I0,
+    input I1,
+    input I2,
+    output O
+);
+    assign O=I0 | I1 | I2;
+endmodule
+
+module or4(
+    input I0,
+    input I1,
+    input I2,
+    input I3,
+    output O
+);
+    assign O=I0 | I1 | I2 | I3;
+endmodule
+
+module or2(
+    input I0,
+    input I1,
+    output O
+);
+    assign O=I0 | I1;
+endmodule
+
+  
+module SegDecoder (
+    input wire [3:0] data,//要显示的十六进制数
+    input wire point,//1显示小数点
+    input wire LE,//0使能
+  
+    output wire a,
+    output wire b,
+    output wire c,
+    output wire d,
+    output wire e,
+    output wire f,
+    output wire g,
+    output wire p //小数点
+);
+    wire [20:0] s;
+    and4 and4_0(~data[0],~data[1],data[2],data[3],s[0]);
+    and4 and4_1(data[0],data[1],data[2],~data[3],s[1]);
+    and3 and3_0(~data[1],~data[2],~data[3],s[2]);
+
+    and3 and3_1(data[0],data[1],~data[3],s[3]);
+    and3 and3_2(data[1],~data[2],~data[3],s[4]);
+    and3 and3_3(data[0],~data[2],~data[3],s[5]);
+    and3 and3_4(data[0],~data[1],~data[2],s[6]);
+    and3 and3_5(~data[1],data[2],~data[3],s[7]);
+
+    and2 and2_0(data[0],~data[3],s[8]);
+
+    and4 and4_2(data[0],~data[1],data[2],~data[3],s[9]);
+    and3 and3_6(data[0],data[1],data[2],s[10]);
+    and3 and3_7(data[1],data[2],data[3],s[11]);
+
+    and4 and4_3(~data[0],data[1],~data[2],~data[3],s[12]);
+
+    and3 and3_8(data[0],data[2],data[3],s[13]);
+    and3 and3_9(~data[0],data[2],data[3],s[14]);
+    and3 and3_10(~data[0],data[1],data[2],s[15]);
+  
+
+    and4 and4_4(data[0],~data[1],data[2],~data[3],s[16]);
+    and4 and4_5(data[0],data[1],~data[2],data[3],s[17]);
+    and4 and4_6(data[0],~data[1],data[2],data[3],s[18]);
+    and4 and4_7(~data[0],~data[1],data[2],~data[3],s[19]);
+    and4 and4_8(data[0],~data[1],~data[2],~data[3],s[20]);
+
+    wire o0,o1,o2,o3,o4,o5,o6;
+
+    or3 or3_0(s[0],s[1],s[2],o0);
+    or4 or4_0(s[3],s[4],s[5],s[18],o1);
+    or3 or3_1(s[6],s[7],s[8],o2);
+    or4 or4_1(s[9],s[10],s[19],s[20],o3);
+    or3 or3_2(s[11],s[12],s[14],o4);
+    or4 or4_2(s[13],s[14],s[15],s[16],o5);
+    or4 or4_3(s[17],s[18],s[19],s[20],o6);
+  
+    assign p=~point;
+    assign g=LE|o0;
+    assign f=LE|o1;
+    assign e=LE|o2;
+    assign d=LE|o3;
+    assign c=LE|o4;
+    assign b=LE|o5;
+    assign a=LE|o6;
+
+endmodule //SegDecoder
 ```
 
-### 2.2.2  复合多路选择器及语法分析比较
+#### 2.2.2  复合多路选择器及语法分析比较
 ##### 使用case语法
-
-可读性高，清晰易懂，但若Mux2<sup>m</sup>T1_n 中 m 值较大时，代码量会显著增加
+	√ 简单易懂
+	× 对于Mux2^mT1_n，m值较大时，需要写的例子较多，会比较繁琐
 ```verilog
 module Mux4T1_32(
     input [31:0] I0,
@@ -284,7 +327,6 @@ endmodule
 
 ##### 使用if-else语法
 
-结构清晰，但S位宽增加时，嵌套层数显著增加，代码复杂度变高
 ```verilog
 module Mux4T1_32(
     input [31:0] I0,
@@ -310,7 +352,6 @@ endmodule
 
 ##### 使用index索引语法
 
-简洁，适用于输入数量较多的多路选择器
 ```verilog
 module Mux4T1_32(
     input [31:0] I0,
@@ -334,7 +375,6 @@ endmodule
 
 ##### 使用 ？：语法
 
-简洁，但可读性较差，且S位宽增加时，嵌套层次显著增加，代码复杂度高
 ```verilog
 module Mux4T1_32(
     input [31:0] I0,
@@ -351,7 +391,6 @@ endmodule
 
 ##### 与或形式
 
-直接映射到硬件电路，但代码较冗长，可读性差
 ```verilog
 module Mux4T1_32(
     input [31:0] I0,
@@ -374,47 +413,23 @@ endmodule
 
 ##### 多个一位多路选择器组合
 
-简洁，结构清晰，易修改
-```verilog
-module Mux4T1_32(
-    input [31:0] I0,
-    input [31:0] I1,
-    input [31:0] I2,
-    input [31:0] I3,
-    input [1:0] S,
-    output [31:0] reg O
-);
+#### 2.2.3  综合实现数码管
 
-	integer i=0;
-	
-	always @(*)begin
-		for(i=0;i<32;i=i+1)begin
-			Mux4T1_1({I3[i], I2[i], I1[i], I0[i]}, S, O[i]);
-		end;
-    end
+##### Verilator仿真
+![[Pasted image 20250307155007.png]]
 
-endmodule
-```
-### 2.2.3  综合实现数码管
+##### Vivado
 
-#### Verilator仿真
-![[Pasted image 20250310183733.png|450]]
+###### Synthesis
+![[Pasted image 20250307155325.png]]
 
-#### Vivado
+###### Implementation
+![[Pasted image 20250307155410.png]]
 
-##### Synthesis
-![[Pasted image 20250310190236.png|475]]
-
-##### Implementation
-![[Pasted image 20250310190425.png|475]]
-
-##### Simulation
-![[Pasted image 20250310184530.png|450]]
-##### 上板
-![[b8b2cce979b2c0cc62416257017add4.jpg|300]]
+###### Simulation
 
 
-### 2.2.4  展开for语句为初始化序列
+#### 2.2.4  展开for语句为初始化序列
 
 ```verilog
 //for版本
@@ -470,13 +485,4 @@ data=4'b1111;
 #5;
 ```
 
-对`for`语句的理解：用于生成重复逻辑，处理数组等，在`testbench.v` 中的作用为间隔相等时间，等步长地改变测试值
-### 2.2.5 各种多路选择器写法比较
-
-|  特性  | case | if-else | index | ? : | 与或  | 多个一位多路选择器 |
-| :--: | :--: | :-----: | :---: | :-: | :-: | :-------: |
-| 可读性  |  高   |    中    |   中   |  低  |  低  |     中     |
-| 简洁性  |  中   |    中    |   高   |  高  |  中  |     中     |
-| 扩展性  |  低   |    低    |   高   |  低  |  中  |     高     |
-| 适用场景 | 小规模  |   小规模   |  大规模  | 小规模 | 小规模 |   硬件设计    |
-最喜欢的：`case`语法(理由：可读性高，易于检查，书写逻辑清晰)
+对for语句的理解：间隔单位时间，等步长地改变输入数据的值以查看不同输出结果

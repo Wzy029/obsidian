@@ -41,32 +41,5 @@
       ],
       "key": "A"
     }
-  ],
-  "obsidian-git:pull": [
-    {
-      "modifiers": [
-        "Alt",
-        "Shift"
-      ],
-      "key": "="
-    }
-  ],
-  "obsidian-git:push2": [
-    {
-      "modifiers": [
-        "Alt",
-        "Shift"
-      ],
-      "key": "-"
-    }
-  ],
-  "obsidian-git:commit": [
-    {
-      "modifiers": [
-        "Alt",
-        "Shift"
-      ],
-      "key": "+"
-    }
   ]
 }

@@ -1,4 +1,7 @@
 {
-  "baseFontSize": 15,
-  "baseFontSizeAction": true
+  "baseFontSize": 18,
+  "baseFontSizeAction": true,
+  "enabledCssSnippets": [
+    "a"
+  ]
 }

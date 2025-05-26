@@ -8,20 +8,35 @@
         "type": "tabs",
         "children": [
           {
-            "id": "4b77aeeb4a64b58c",
+            "id": "8272c56b980561a6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "计算机系统Ⅰ（理论）.md",
+                "file": "notes/离散数学.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "计算机系统Ⅰ（理论）"
+              "title": "离散数学"
+            }
+          },
+          {
+            "id": "621931c228ae1280",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "notes/概率论.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "概率论"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -53,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "for",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,7 +93,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "ba0e81e241f4c2b0",
@@ -142,17 +158,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "离散数学.md",
+                "file": "notes/概率论.md",
                 "followCursor": false,
                 "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "离散数学 的大纲"
+              "title": "概率论 的大纲"
             }
           },
           {
-            "id": "2a65a2aa9a3f9b3c",
+            "id": "09a3dac00659214d",
             "type": "leaf",
             "state": {
               "type": "advanced-tables-toolbar",
@@ -160,18 +176,9 @@
               "icon": "spreadsheet",
               "title": "Advanced Tables"
             }
-          },
-          {
-            "id": "7bb305811ea62760",
-            "type": "leaf",
-            "state": {
-              "type": "git-view",
-              "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
-            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -190,32 +197,45 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "9e9eaeedc9d07efb",
+  "active": "621931c228ae1280",
   "lastOpenFiles": [
-    "obsidian/计算机系统Ⅰ（理论）.md",
+    "Pasted image 20250526122426.png",
+    "Pasted image 20250526104243.png",
+    "Pasted image 20250526104233.png",
+    "Pasted image 20250526104158.png",
+    "notes/离散数学.md",
+    "notes/概率论.md",
+    "notes/数据结构基础(FDS).md",
+    "Pasted image 20250522143253.png",
+    "notes/计算机系统Ⅰ（实验）.md",
+    "notes/计算机系统Ⅰ（理论）.md",
+    "Pasted image 20250507082311.png",
+    "hw/离散HW7.md",
+    "Pasted image 20250423131126.png",
+    "Pasted image 20250423130257.png",
+    "Pasted image 20250423130057.png",
+    "Pasted image 20250423124704.png",
+    "Pasted image 20250423122553.png",
+    "hw/离散HW6.md",
+    "hw/离散HW5.md",
+    "hw/离散HW4.md",
+    "hw",
+    "notes/计算机系统Ⅰ（理论） 1.md",
+    "reports",
+    "reports/Lab1实验报告.md",
+    "notes",
+    "Untitled2.sheet",
+    "Untitled1.sheet",
+    "Untitled.sheet",
+    "reports/Lab 0-2实验报告.md",
+    "reports/Lab 0-1实验报告.md",
+    "Verilog.md",
     "obsidian",
     "团组织生活会.md",
-    "计算机系统Ⅰ（理论）.md",
-    "Pasted image 20250324133946.png",
-    "离散数学.md",
     "新建 文本文档.txt",
-    "Pasted image 20250323201406.png",
-    "Pasted image 20250323195906.png",
-    "Pasted image 20250323195725.png",
-    "Pasted image 20250323151504.png",
-    "Pasted image 20250323151427.png",
-    "Verilog-wzy.md",
-    "Pasted image 20250319144951.png",
-    "Pasted image 20250319144932.png",
-    "Pasted image 20250317155055.png",
-    "Pasted image 20250317155040.png",
     "未命名.canvas",
     "HW01.md",
-    "Lab 0-1实验报告.md",
-    "Lab1实验报告.md",
-    "Verilog.md",
     "2025-03-10.md",
-    "Lab 0-2实验报告.md",
     "班团.md"
   ]
 }
