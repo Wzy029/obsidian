@@ -93,8 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "ba0e81e241f4c2b0",
@@ -197,7 +196,7 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "621931c228ae1280",
+  "active": "9e9eaeedc9d07efb",
   "lastOpenFiles": [
     "Pasted image 20250526122426.png",
     "Pasted image 20250526104243.png",
