@@ -9,5 +9,8 @@
   "spellcheck": false,
   "readableLineLength": true,
   "showLineNumber": false,
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative",
+  "attachmentFolderPath": "./attachments"
 }
